@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, \
     UpdateView, TemplateView, DeleteView
 from .models import Todo
 from django.urls import reverse_lazy
+from .forms import TodoForm
 
 ''' Регистрация '''
 class MyRegisterFormView(FormView):
@@ -35,24 +36,22 @@ class LoginFormView(FormView):
         return super(LoginFormView, self).form_valid(form)
     
 
-class TodoList(ListView):
+class TodoList(FormView,ListView):
     model = Todo
     template_name = 'todo_app/home.html'
-    
-    def get_queryset(self):
-        return Todo.objects.filter(user_todo=self.request.user)
-
-
-class TodoCreate(CreateView):
-    model = Todo
-    template_name = 'todo_app/create_todo.html'
-    fields = ['text', ]
-    context_object_name = 'create_todo'
+    form_class = TodoForm
     success_url = reverse_lazy('home')
-
+    
     def form_valid(self, form):
         form.instance.user_todo = self.request.user
-        return super(TodoCreate, self).form_valid(form)
+        print(form.instance.user_todo)
+        a = self.request.POST.get('text', False)
+        Todo.objects.create(text=a, user_todo=form.instance.user_todo)
+        # print(self.request.status)
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return Todo.objects.filter(user_todo=self.request.user)
 
 
 class TodoDelete(DeleteView):
@@ -62,9 +61,10 @@ class TodoDelete(DeleteView):
 
 class TodoUpdate(UpdateView):
     model = Todo
+    success_url = reverse_lazy('home')
     template_name = 'todo_app/todo_update.html'
-    fields = ['text', 'user_todo']
-    success_urls = reverse_lazy('home')
+    fields = ['text',]
+   
 
     
 def completeTodo(request, todo_id):

@@ -1,7 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-	<a href="{% url 'create_todo' %}"><h2 style="margin-left: 70%">+ Add new todo</h2></a>
-	<ul class="list-group t20">
+
+
+<!-- <form action="/home/" method="POST">
+	{% csrf_token %}
+	<input type="text" name="text">
+	<button type="submit"> Add </button>
+</form> -->
+
+<!-- <form class="list-group t20" action="/home/" method="POST">
+	{% csrf_token %}
+	<input type="text" class="form-control" id="formGroupExampleInput" placeholder="ADD TODO"
+	aria-label="ADD TODO" name="text" style="width: 600px;">
+	<button type="submit" class="btn btn-secondary top-menu" style="">
+		<a href="" class="top-menu">Add</a>
+	</button>
+</form> -->
+<form class="form-inline my-2 my-lg-0" action="/home/" method="POST">
+  {% csrf_token %}
+  <input type="text" class="form-control" id="formGroupExampleInput" name="text" style="width: 660px;">
+  <button class="btn btn-secondary" type="submit" id="button-addon2" style="width:100x;height:35px">Add</button>
+</form>
+
+
+ 	<ul class="list-group t20" style="width: 660px;">
 			{% for i in object_list %}
 				{% if i.status == True %}
 					  <a href="{% url 'todo_delete' i.id %}">
@@ -14,9 +36,10 @@
 					  	<button type="button" class="btn btn-secondary" style="margin-left: 101%; margin-top: -5%">Delete</button>
 					  </a>
 					  <a href="{% url 'todo_update' i.id %}">
-					  	<button type="button" class="btn btn-secondary" style="margin-left: 110%; margin-top: -5%">Edit</button>
+					  	<button type="button" class="btn btn-secondary" style="margin-left: 112%; margin-top: -5%">Edit</button>
 					  </a>				
 				{% endif %}
 			{% endfor %}
+
 	</ul>
 {% endblock content %}
