@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+	<a href="{% url 'create_todo' %}"><h2 style="margin-left: 70%">+ Add new todo</h2></a>
+	<ul class="list-group t20">
+			{% for i in object_list %}
+				{% if i.status == True %}
+					  <a href="{% url 'todo_delete' i.id %}">
+					  	<button type="button" class="btn btn-secondary" style="margin-left: 101%; margin-bottom: -8%">Delete</button>
+					  </a>
+					<li class="list-group-item todo-completed">{{ i.text }}</li>
+				{% else %}
+					<a href="{% url 'complete' i.id %}"><li class="list-group-item">{{ i.text }}</li></a>
+					  <a href="{% url 'todo_delete' i.id %}">
+					  	<button type="button" class="btn btn-secondary" style="margin-left: 101%; margin-top: -5%">Delete</button>
+					  </a>
+					  <a href="{% url 'todo_update' i.id %}">
+					  	<button type="button" class="btn btn-secondary" style="margin-left: 110%; margin-top: -5%">Edit</button>
+					  </a>				
+				{% endif %}
+			{% endfor %}
+	</ul>
+{% endblock content %}

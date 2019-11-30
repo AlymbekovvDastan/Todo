@@ -1,0 +1,27 @@
+{% load static %}
+<html>
+    <head>
+        <title>Todo</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <div class="page-header" style="color: #000">
+            {% if request.user.is_authenticated %}
+                <h1><a href="{% url 'home' %}" style="color: #FFD700; margin: 35%">Daily To do</a></h1>
+            {% else %}
+                <h1>Daily To do</h1>
+            {% endif %}
+        </div>
+        <div class="content container" style="margin-left: 22%; ">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
